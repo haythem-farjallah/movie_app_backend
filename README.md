@@ -5,7 +5,6 @@ Welcome to the Movie App Backend! This repository contains the backend code for 
 ## Features
 
 - **User Authentication**: Users can sign up, log in, and log out securely.
-- **Movie CRUD Operations**: The backend supports basic CRUD operations for managing movies.
 - **Favorite Movies**: Users can add movies to their favorites list and view/delete them.
 - **RESTful API**: The backend provides a RESTful API for easy integration with frontend applications.
 
