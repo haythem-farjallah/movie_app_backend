@@ -31,36 +31,13 @@ Welcome to the Movie App Backend! This repository contains the backend code for 
    ```bash
    git clone <repository-url>
    cd movie-app-backend
-Install dependencies:
-bash
-Copy code
+   ```
+
+# Setup and API Guide
+
+## Install dependencies
+
+```bash
 npm install
-Set up environment variables:Create a .env file in the root directory and add the following variables:
-makefile
-Copy code
-PORT=3000
-MONGODB_URI=<your-mongodb-uri>
-JWT_SECRET=<your-jwt-secret>
-Start the server:
-bash
-Copy code
-npm start
-API Endpoints
-POST /api/auth/signup: Register a new user.
-POST /api/auth/login: Log in an existing user.
-GET /api/movies: Get a list of all movies.
-POST /api/movies: Add a new movie.
-GET /api/movies/:id: Get details of a specific movie.
-PUT /api/movies/:id: Update details of a movie.
-DELETE /api/movies/:id: Delete a movie.
-GET /api/favorites: Get the list of favorite movies for the authenticated user.
-POST /api/favorites/:movieId: Add a movie to favorites.
-DELETE /api/favorites/:movieId: Remove a movie from favorites.
-Contributing
-Contributions are welcome! If you find any bugs or have suggestions for improvement, please open an issue or submit a pull request.
 
-License
-This project is licensed under the MIT License.
-
-Contact
-For any inquiries or support, feel free to contact Your Name.
+```
