@@ -3,6 +3,7 @@ const User = require("../model/userModel");
 const bcrypt = require("bcryptjs");
 const createToken = require("../utils/createToken");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/sendEmail");
 
 exports.login = asyncHandler(async (req, res, next) => {
   // 1) check if password and email in the body (validation)
@@ -23,7 +24,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.signUp = async (req, res, next) => {
-  console.log(req);
+  // console.log(req);
   const { username, email, password } = req.body;
 
   try {
@@ -77,6 +78,57 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     message: "Profile updated successfully",
     data: user,
+  });
+});
+
+exports.forgetPasswordSendEmail = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
+  const code = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+
+  const message = "your code : " + code;
+  await sendEmail({
+    email: email,
+    subject: "Your password reset code (valid for 10 min)",
+    message,
+  });
+  user.code = code;
+  await user.save();
+  res.status(200).json({
+    message: " successfully",
+  });
+});
+
+exports.forgetPasswordVerifyCode = asyncHandler(async (req, res, next) => {
+  const { code } = req.body;
+
+  const user = await User.findOne({ code });
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+
+  res.status(200).json({
+    message: " successfully",
+  });
+});
+
+exports.forgetPassword = asyncHandler(async (req, res, next) => {
+  const { password, code } = req.body;
+
+  const user = await User.findOne({ code: code });
+  if (!user) {
+    return next(new ApiError("User not found", 404));
+  }
+  user.password = password;
+  user.code = undefined;
+  await user.save();
+  res.status(200).json({
+    message: " successfully",
   });
 });
 
