@@ -5,8 +5,20 @@ exports.addFavorite = asyncHandler(async (req, res, next) => {
   const { title, imageUrl, imdbID, rating } = req.body; // Ensure these fields are provided in the body
   const userId = req.user._id; // Assuming req.user is populated from your authentication middleware
 
-  // Create a new favorite movie directly
+  // Check if the favorite movie already exists for the user
+  const existingFavorite = await Favorite.findOne({
+    imdbID: imdbID,
+    user: userId,
+  });
 
+  // If the movie already exists, return an error or a message
+  if (existingFavorite) {
+    return res.status(409).json({
+      message: "This movie is already added to favorites",
+    });
+  }
+
+  // Create a new favorite movie if it does not exist already
   const favorite = await Favorite.create({
     title,
     imageUrl,
